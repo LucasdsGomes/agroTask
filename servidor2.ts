@@ -6,7 +6,7 @@ import {
     calcularResultados
 } from './calculos';
 
-const PORTA = 4000;
+const PORTA = 4001;
 
 const servidor = net.createServer((socket) => {
     console.log('Cliente conectado');
