@@ -15,18 +15,28 @@ export interface ResultadoBancada {
     condutividade: InterfaceGeral;
 }
 
-let bancadas: any[] = [];
+export interface DadosBancada {
+    temperatura: number;
+    umidade: number;
+    condutividade: number;
+}
 
-export const gerarBancadas = () => {
-    bancadas = [];
-    for (let i = 1; i <= 10; i++) {
-        bancadas.push({
-            temperatura: parseFloat((Math.random() * 100).toFixed(2)),
-            umidade: parseFloat((Math.random() * 100).toFixed(2)),
-            condutividade: parseFloat((Math.random() * 100).toFixed(2))
-        });
-    }
-};
+export interface ListaBancadas {
+    bancadasv1: DadosBancada[];
+    bancadasv2: DadosBancada[];
+    bancadasv3: DadosBancada[];
+}
+
+// export const gerarBancadas = () => {
+//     bancadas = [];
+//     for (let i = 1; i <= 10; i++) {
+//         bancadas.push({
+//             temperatura: parseFloat((Math.random() * 100).toFixed(2)),
+//             umidade: parseFloat((Math.random() * 100).toFixed(2)),
+//             condutividade: parseFloat((Math.random() * 100).toFixed(2))
+//         });
+//     }
+// };
 
 export const gerarSensor = (): Sensor => {
     return {
@@ -41,11 +51,13 @@ const calcularMedia = (valor1: number, valor2: number): number => {
 };
 
 const calcularMediana = (valor1: number, valor2: number): number => {
-    return parseFloat(((valor1 + valor2) / 2).toFixed(2)); 
+    return parseFloat(([valor1, valor2].sort((a, b) => a - b)[Math.floor(2 / 2 - 1)]).toFixed(2));
+    // Cria um array com dois valores, ordena os dois do menor para o maior, calcula o índice da mediana que será o menor valor dos dois e formata para duas casas decimais
 };
 
 export const calcularResultados = (
-    sensor: Sensor
+    sensor: Sensor,
+    bancadas: DadosBancada[]
 ): ResultadoBancada[] => {
     return bancadas.map(bancada => ({
         temperatura: {
@@ -62,3 +74,4 @@ export const calcularResultados = (
         }
     }));
 };
+

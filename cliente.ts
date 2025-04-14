@@ -17,18 +17,23 @@ rl.question('Digite a porta do servidor que deseja se conectar (ex: 4000, 4001, 
     });
 
     cliente.on('data', (data: Buffer) => {
-        const resultados: ResultadoBancada[] = JSON.parse(data.toString());
-        console.log("Sensor enviado:", sensor);
-
-        resultados.forEach((bancada, index) => {
-            console.log(`\n--- Bancada ${index + 1} ---`);
-            console.log(`Temperatura   -> Média: ${bancada.temperatura.media}, Mediana: ${bancada.temperatura.mediana}`);
-            console.log(`Umidade       -> Média: ${bancada.umidade.media}, Mediana: ${bancada.umidade.mediana}`);
-            console.log(`Condutividade -> Média: ${bancada.condutividade.media}, Mediana: ${bancada.condutividade.mediana}`);
+        const resultados = JSON.parse(data.toString());
+    
+        console.log("Sensor:", sensor);
+    
+        // Transforma o objeto em um array de pares [chave, valor]
+        Object.entries(resultados).forEach(([bancadaNome, bancadaResultados]) => {
+            console.log(`\n--- ${bancadaNome} ---`);
+            (bancadaResultados as ResultadoBancada[]).forEach((bancada, index) => { //Esse as ResultadoBancada[] é só para o TypeScript entender que aquilo é um array de resultados.
+                console.log(`Temperatura -> Média: ${bancada.temperatura.media}, Mediana: ${bancada.temperatura.mediana}`);
+                console.log(`Umidade -> Média: ${bancada.umidade.media}, Mediana: ${bancada.umidade.mediana}`);
+                console.log(`Condutividade -> Média: ${bancada.condutividade.media}, Mediana: ${bancada.condutividade.mediana}`);
+            });
         });
-
+    
         rl.close();
     });
+    
 
     cliente.on('end', () => {
         console.log('Conexão encerrada');
