@@ -27,9 +27,9 @@ const servidor = net.createServer((socket) => {
     console.log('Cliente conectado');
 
     
-    const servidor1 = gerarInformacoes();
+    const servidor2 = gerarInformacoes();
     
-    listaBancadas.bancadasv1.push(servidor1);
+    listaBancadas.bancadasv2.push(servidor2);
 
     console.log("Dados atualizados:");
     console.log("Servidor 2:");
